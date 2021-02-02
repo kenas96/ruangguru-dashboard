@@ -1,0 +1,44 @@
+.table-wrapper {
+  .table-user {
+    .ant-table-thead {
+      font-size: 13px;
+      tr th {
+        padding: 10px 5px;
+      }
+    }
+
+    .ant-table-tbody {
+      font-size: 13px;
+      tr td {
+        padding: 10px 5px;
+      }
+    }
+
+    .ant-pagination-item-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ant-pagination-jump-prev,
+    .ant-pagination-jump-next {
+      .ant-pagination-item-link {
+        height: 100%;
+      }
+    }
+  }
+}
+
+.permission-checkbox {
+  margin-left: 7px;
+}
+
+.permission-yes {
+  color: green;
+  font-weight: bold;
+}
+
+.permission-no {
+  color: red;
+  font-weight: bold;
+}

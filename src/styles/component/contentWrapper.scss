@@ -1,0 +1,34 @@
+.isoBoxWrapper {
+    width: 100%;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid;
+    margin: 0 17px 30px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    @media only screen and (max-width: 767px) {
+        padding: 20px;
+        margin: 0 10px 30px;
+    }
+
+    &.half {
+        width: calc(50% - 34px);
+        @media (max-width: 767px) {
+            width: 100%;
+        }
+    }
+
+    .isoBoxHeader {
+        margin-bottom: 16px;
+
+        .isoBoxTitle {
+            font-weight: 700;
+            font-size: 28px;
+            color: color(text, heading);
+            margin-bottom: 6px;
+        }
+    };
+}

@@ -1,0 +1,35 @@
+.profile__wrapper {
+    display: flex;
+
+    .profile__wrapper--img-wrapper {
+        margin-right: 36px;
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .profile-name {
+            text-align: center;
+            margin: 16px 0 0;
+        }
+    }
+
+    .profile__wrapper--details-wrapper {
+        width: 100%;
+
+        .profile__items {
+            display: flex;
+
+            .profile__items--field {
+                min-width: 150px;
+            }
+
+            .profile__items--separator {
+                margin: 0 6px 0 0;
+            }
+        }
+    }
+}
