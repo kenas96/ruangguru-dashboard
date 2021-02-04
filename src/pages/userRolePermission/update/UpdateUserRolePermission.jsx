@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 
 import axios from "../../../utils/axios";
 import { formItemLayout, btn } from "../../../styles/component/formVariable";
-import config from "../../../../config";
 import { getAllRole } from "../../../service/userService";
 import Notification from "../../../components/notifications/notifications";
 
@@ -48,7 +47,7 @@ class UpdateUserRolePermission extends React.Component {
     const { loadingPage } = this.state;
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/group/detail/${id}`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/group/detail/${id}`;
     axios({
       method: "get",
       url: apiPath,
@@ -151,7 +150,7 @@ class UpdateUserRolePermission extends React.Component {
     } = this.props;
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/group/update/${id}`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/group/update/${id}`;
     validateFields((err, values) => {
       if (!err) {
         const payload = {

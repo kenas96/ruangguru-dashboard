@@ -1,7 +1,5 @@
 import axios from "../utils/axios";
 
-import config from "../../config";
-
 const authTypes = {
   LOGIN_REQUEST: "LOGIN_REQUEST",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
@@ -34,7 +32,7 @@ const fetchLogin = ({ email, password }) => {
 
     axios({
       method: "post",
-      url: `${config.apiUrl}qredit/v1/auth/portal/login`,
+      url: `${process.env.REACT_APP_SERVER_API}qredit/v1/auth/portal/login`,
       data: {
         email,
         password

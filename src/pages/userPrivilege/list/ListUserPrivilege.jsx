@@ -15,7 +15,6 @@ import get from "lodash/get";
 
 import { unixFormatDateTime } from "../../../utils/DateUtils";
 import axios from "../../../utils/axios";
-import config from "../../../../config";
 
 const { confirm } = Modal;
 let permission = {};
@@ -61,7 +60,7 @@ class ListUserPrivilege extends React.Component {
 
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/user/list`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/user/list`;
     this.setState({ loading: true });
     const roles = user.info.resource_access["boost-qredit-portal-dev"].roles;
     roles.map(key => {
@@ -101,7 +100,7 @@ class ListUserPrivilege extends React.Component {
   delete = id => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/user/delete/${id}`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/user/delete/${id}`;
 
     axios({
       method: "delete",

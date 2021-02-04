@@ -1,29 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { Layout, Menu, Icon } from 'antd';
-
-import routes from '../routes';
+import React from "react";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import { Layout, Menu, Icon } from "antd";
+import Logo from "../assets/icons/logo.png";
+import LogoCollapsed from "../assets/icons/logo-collapsed.png";
+import routes from "../routes";
 
 const { Sider } = Layout;
 
 const Sidebar = ({ collapsed }) => {
-  const logo = 'logo.png';
-  const logoCollapsed = 'logo-collapsed.png';
+  const logo = "logo.png";
+  const logoCollapsed = "logo-collapsed.png";
   return (
     <Sider
       trigger={null}
       collapsible
       collapsed={collapsed}
-      className={`layout__sidebar ${collapsed ? 'collapsed' : ''}`}
+      className={`layout__sidebar ${collapsed ? "collapsed" : ""}`}
     >
       <div className="layout__sidebar--logo">
-        <img
-          src={`/assets/icons/${collapsed ? logoCollapsed : logo}`}
-          alt="Logo"
-        />
+        <img src={collapsed ? LogoCollapsed : Logo} alt="Logo" />
       </div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
         {routes.map((route, index) => {
           if (!route.hideSidebar) {
             const { child } = route;

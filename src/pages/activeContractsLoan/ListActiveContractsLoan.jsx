@@ -3,7 +3,6 @@ import { Row, Col, message, Tabs, Tag } from "antd";
 import get from "lodash/get";
 
 import axios from "../../utils/axios";
-import config from "../../../config";
 import { currencyFormatter } from "../../utils/helpers";
 import { getCategoryType, getCompany } from "../../service/lenderService";
 import {
@@ -294,7 +293,7 @@ class ListActiveContractsLoan extends React.Component {
 
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/contract/list/active`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active`;
     this.setState({ loading: true });
     axios({
       method: "get",
@@ -311,7 +310,7 @@ class ListActiveContractsLoan extends React.Component {
         pagination.pages = Math.ceil(data.count / pagination.pageSize);
         const contracts = data.row.map((key, index) => {
           return {
-            key: key.client_id,
+            key: index + 1 + (pagination.current - 1) * pagination.pageSize,
             merchant_id: key.client_id,
             merchant_name: key.name,
             contract_number: key.contract_number,
@@ -359,7 +358,7 @@ class ListActiveContractsLoan extends React.Component {
 
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/contract/list/active?contractStatus=ACTIVE`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active?contractStatus=ACTIVE`;
     this.setState({ loadingActive: true });
     axios({
       method: "get",
@@ -429,7 +428,7 @@ class ListActiveContractsLoan extends React.Component {
 
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/contract/list/active?contractStatus=RENEWAL`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active?contractStatus=RENEWAL`;
     this.setState({ loadingRenewal: true });
     axios({
       method: "get",

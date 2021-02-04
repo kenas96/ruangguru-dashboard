@@ -18,10 +18,12 @@ import ListTransaction from "./pages/transaction/ListTransaction";
 let permission = {};
 
 const user = JSON.parse(window.localStorage.getItem("user"));
-const roles = user.info.resource_access["boost-qredit-portal-dev"].roles;
-roles.map(key => {
-  permission[key] = 1;
-});
+if (user) {
+  const roles = user.info.resource_access["boost-qredit-portal-dev"].roles;
+  roles.map(key => {
+    permission[key] = 1;
+  });
+}
 
 const routes = [
   {

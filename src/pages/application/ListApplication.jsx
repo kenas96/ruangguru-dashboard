@@ -12,7 +12,6 @@ import {
 import get from "lodash/get";
 
 import axios from "../../utils/axios";
-import config from "../../../config";
 import { currencyFormatter } from "../../utils/helpers";
 import { getCategoryType, getCompany } from "../../service/lenderService";
 import {
@@ -139,7 +138,7 @@ class ListApplication extends React.Component {
 
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/contract/list/pagination`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/pagination`;
     this.setState({ loading: true });
     axios({
       method: "get",

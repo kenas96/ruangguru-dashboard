@@ -2,7 +2,6 @@ import React from "react";
 import { Card, Table, message, Row, Col } from "antd";
 import get from "lodash/get";
 
-import config from "../../../config";
 import axios from "../../utils/axios";
 import { currencyFormatter } from "../../utils/helpers";
 import { unixFormatDate, unixFormatDateTime } from "../../utils/DateUtils";
@@ -40,7 +39,7 @@ class Home extends React.Component {
     };
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/contract/list/pagination`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/pagination`;
     this.setState({ loadingContractList: true });
     axios({
       method: "get",
@@ -76,7 +75,7 @@ class Home extends React.Component {
   getTopTenDueDate = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/contract/list/topTen/dueDate`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/topTen/dueDate`;
     this.setState({ loadingTopTenDueDate: true });
     axios({
       method: "get",
@@ -108,7 +107,7 @@ class Home extends React.Component {
   getAvailableLoan = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/disbursement/total/available/today`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/disbursement/total/available/today`;
     axios({
       method: "get",
       url: apiPath,
@@ -131,7 +130,7 @@ class Home extends React.Component {
   getLoanDisbursement = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/disbursement/total/amount/disbursed`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/disbursement/total/amount/disbursed`;
     axios({
       method: "get",
       url: apiPath,
@@ -154,7 +153,7 @@ class Home extends React.Component {
   getRepaymentTotal = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/repayment/total/amount`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/repayment/total/amount`;
     axios({
       method: "get",
       url: apiPath,
@@ -177,7 +176,7 @@ class Home extends React.Component {
   getRepaymentTotalOnPeriod = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/repayment/total/amount/onperiod`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/repayment/total/amount/onperiod`;
     axios({
       method: "get",
       url: apiPath,
@@ -200,7 +199,7 @@ class Home extends React.Component {
   getRepaymentGracePeriod = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/repayment/total/amount/gracePeriod`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/repayment/total/amount/gracePeriod`;
     axios({
       method: "get",
       url: apiPath,
@@ -223,7 +222,7 @@ class Home extends React.Component {
   getRepaymentOnPenalty = () => {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/repayment/total/amount/penalty`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/repayment/total/amount/penalty`;
     axios({
       method: "get",
       url: apiPath,

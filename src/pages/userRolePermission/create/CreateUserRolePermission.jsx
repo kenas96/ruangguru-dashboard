@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import axios from "../../../utils/axios";
 import { formItemLayout, btn } from "../../../styles/component/formVariable";
-import config from "../../../../config";
 import Notification from "../../../components/notifications/notifications";
 
 const FormItem = Form.Item;
@@ -49,7 +48,7 @@ class CreateUserRolePermission extends React.Component {
     } = this.props;
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/group/create`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/group/create`;
 
     validateFields((err, values) => {
       if (!err) {

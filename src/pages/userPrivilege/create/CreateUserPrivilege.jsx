@@ -5,7 +5,6 @@ import get from "lodash/get";
 
 import axios from "../../../utils/axios";
 import { formItemLayout, btn } from "../../../styles/component/formVariable";
-import config from "../../../../config";
 import { Regex } from "../../../utils/Regex";
 import { getAllGroup } from "../../../service/userService";
 import Notification from "../../../components/notifications/notifications";
@@ -68,7 +67,7 @@ class CreateUserPrivilege extends React.Component {
     } = this.props;
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/user/add-user`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/user/add-user`;
     validateFields((err, values) => {
       if (!err) {
         const payload = {

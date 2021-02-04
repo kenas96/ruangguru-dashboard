@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Notifications from "../../components/notifications/notifications";
 import { auth } from "../../actions";
 import Color from "../../utils/color";
+import Logo from "../../assets/image/logoboost.png";
 
 const FormItem = Form.Item;
 
@@ -111,11 +112,7 @@ class Login extends React.Component {
     const view = (
       <div className="isoLoginContent">
         <div className="logoWrapper">
-          <img
-            alt="logo"
-            src={"/assets/image/logoboost.png"}
-            className="logo-login"
-          />
+          <img alt="logo" src={Logo} className="logo-login" />
         </div>
         <div className="titleWrapper">BOOST QREDIT PORTAL</div>
         <div className="isoLogoWrapper">

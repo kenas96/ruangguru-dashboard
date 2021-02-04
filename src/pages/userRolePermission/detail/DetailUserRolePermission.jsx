@@ -4,7 +4,6 @@ import { Col, Row, Spin, Button, Collapse, Tag } from "antd";
 import { Link } from "react-router-dom";
 
 import axios from "../../../utils/axios";
-import config from "../../../../config";
 
 const { Panel } = Collapse;
 
@@ -36,7 +35,7 @@ class DetailUserRolePermission extends React.Component {
     } = match;
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${config.apiUrl}qredit/v1/group/detail/${id}`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/group/detail/${id}`;
     axios({
       method: "get",
       url: apiPath,

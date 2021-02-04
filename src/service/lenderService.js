@@ -1,10 +1,9 @@
 import axios from "axios";
-import config from "../../config";
 
 export const getCategoryType = () => {
   const user = JSON.parse(window.localStorage.getItem("user"));
   const { access_token } = user.token;
-  const URL = `${config.apiUrl}qredit/v1/lender/list/qredit`;
+  const URL = `${process.env.REACT_APP_SERVER_API}qredit/v1/lender/list/qredit`;
   const options = {
     headers: {
       Authorization: "Bearer " + access_token
@@ -25,7 +24,7 @@ export const getCategoryType = () => {
 export const getCompany = categoryType => {
   const user = JSON.parse(window.localStorage.getItem("user"));
   const { access_token } = user.token;
-  const URL = `${config.apiUrl}qredit/v1/lender/list/${categoryType}`;
+  const URL = `${process.env.REACT_APP_SERVER_API}qredit/v1/lender/list/${categoryType}`;
   const options = {
     headers: {
       Authorization: "Bearer " + access_token
