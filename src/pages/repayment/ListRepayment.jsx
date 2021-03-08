@@ -176,8 +176,8 @@ class ListRepayment extends React.Component {
             penalty_amount: currencyFormatter(key.penalty_amount),
             total_payment_amount: currencyFormatter(key.total_payment_amount),
             repayment_period: key.repayment_period,
-            settlment_status: key.settlment_status
-              ? key.settlment_status.toLowerCase()
+            settlement_status: key.settlement_status
+              ? key.settlement_status.toLowerCase()
               : "-",
             index: index + 1 + (pagination.current - 1) * pagination.pageSize
           };
@@ -454,9 +454,9 @@ class ListRepayment extends React.Component {
       },
       {
         title: "Transfer Status",
-        dataIndex: "settlment_status",
+        dataIndex: "settlement_status",
         show: false,
-        render: (text, record) => <span>{record.settlment_status}</span>
+        render: (text, record) => <b>{record.settlement_status}</b>
       }
     ];
 
