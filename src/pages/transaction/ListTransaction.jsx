@@ -16,7 +16,8 @@ import { currencyFormatter } from "../../utils/helpers";
 import {
   convertDateToEpoch,
   unixFormatDateTimeStripe,
-  unixFormatDate
+  unixFormatDate,
+  unixFormatDateStripe
 } from "../../utils/DateUtils";
 
 const { Option } = Select;
@@ -123,13 +124,13 @@ class ListTransaction extends React.Component {
         const transaction = data.rows.map((key, index) => {
           return {
             key: index + 1 + (pagination.current - 1) * pagination.pageSize,
-            transaction_date: unixFormatDate(key.tanggal_transaksi),
-            tx_type_code: key.tx_type_code,
+            transaction_date: unixFormatDate(key.transaction_date),
+            transaction_reference: key.transaction_reference,
             merchant_id: key.merchant_id,
             merchant_name: key.merchant_name,
             msisdn: key.msisdn,
             amount: currencyFormatter(key.amount),
-            description: key.reason,
+            description: key.reason.replace("Pembayaran Produk ", "P"),
             index: index + 1 + (pagination.current - 1) * pagination.pageSize
           };
         });
@@ -200,6 +201,51 @@ class ListTransaction extends React.Component {
     this.handleCriteria(unixFormatDateTimeStripe(date), "to");
   };
 
+  download = () => {
+    const { searchCriteria } = this.state;
+    let params = {};
+
+    searchCriteria.map(item => {
+      params[item.name] = item.value;
+    });
+
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    const { access_token } = user.token;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/transaction/list/download`;
+    this.setState({ loading: true });
+    axios({
+      method: "post",
+      url: apiPath,
+      responseType: "blob",
+      headers: { Authorization: "Bearer " + access_token },
+      data: {
+        from: params.from,
+        to: params.to,
+        merchantName: params.merchantName,
+        msisdn: params.msisdn
+      }
+    })
+      .then(response => {
+        this.setState({ loading: false });
+        const date = unixFormatDateStripe(Date.now());
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Transaction-${date}.xls`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        const errMsg = get(error, "response.status", null);
+        if (errMsg === 400) {
+          message.error("Error! Data does not exist!");
+        } else {
+          message.error("Internal server error!");
+        }
+      });
+  };
+
   render() {
     const {
       data,
@@ -224,7 +270,7 @@ class ListTransaction extends React.Component {
       },
       {
         title: "Transaction Ref. No.",
-        dataIndex: "tx_type_code",
+        dataIndex: "transaction_reference",
         show: true
       },
       {
@@ -259,7 +305,7 @@ class ListTransaction extends React.Component {
     const defaultColumn = [
       "index",
       "transaction_date",
-      "tx_type_code",
+      "transaction_reference",
       "merchant_name",
       "msisdn",
       "amount",
@@ -335,7 +381,7 @@ class ListTransaction extends React.Component {
                 style={{ width: "60%" }}
                 placeholder="MSISDN"
                 onChange={event =>
-                  this.handleCriteria(event.target.value, " msisdn")
+                  this.handleCriteria(event.target.value, "msisdn")
                 }
               />
             </div>
@@ -389,7 +435,7 @@ class ListTransaction extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={3}>
+          <Col span={9}>
             <div className="btn__wrapper">
               <div className="btn__wrapper--right">
                 <Button
@@ -399,6 +445,14 @@ class ListTransaction extends React.Component {
                   onClick={this.handleSearch}
                 >
                   Filter
+                </Button>
+                <Button
+                  type="primary"
+                  icon="download"
+                  style={{ marginRight: "10px" }}
+                  onClick={this.download}
+                >
+                  Download
                 </Button>
               </div>
             </div>

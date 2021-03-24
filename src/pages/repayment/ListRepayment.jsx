@@ -273,9 +273,9 @@ class ListRepayment extends React.Component {
         "loan_amount",
         "repayment_date",
         "penalty_day",
-        "payment_amount",
         "total_payment_amount",
-        "repayment_period"
+        "repayment_period",
+        "settlement_status"
       ];
 
       if (this.state.selectedColumn.length > 0) {
@@ -294,6 +294,7 @@ class ListRepayment extends React.Component {
       if (selectedColumnKey.length > 9) {
         message.warning("Maximum data column is 9!");
       } else {
+        this.setState({ loading: true });
         axios({
           method: "post",
           url: apiPath,
@@ -305,6 +306,8 @@ class ListRepayment extends React.Component {
           }
         })
           .then(response => {
+            this.fetch();
+            this.setState({ loading: false });
             const date = unixFormatDateStripe(Date.now());
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
@@ -314,6 +317,7 @@ class ListRepayment extends React.Component {
             link.click();
           })
           .catch(error => {
+            this.setState({ loading: false });
             const errMsg = get(error, "response.status", null);
             if (errMsg === 400) {
               message.error("Error! Data does not exist!");
@@ -424,7 +428,7 @@ class ListRepayment extends React.Component {
       {
         title: "Repayment Amount",
         dataIndex: "payment_amount",
-        show: true
+        show: false
       },
       {
         title: "Penalty Amount",
@@ -455,7 +459,7 @@ class ListRepayment extends React.Component {
       {
         title: "Transfer Status",
         dataIndex: "settlement_status",
-        show: false,
+        show: true,
         render: (text, record) => <b>{record.settlement_status}</b>
       }
     ];
@@ -468,9 +472,9 @@ class ListRepayment extends React.Component {
       "loan_amount",
       "repayment_date",
       "penalty_day",
-      "payment_amount",
       "total_payment_amount",
-      "repayment_period"
+      "repayment_period",
+      "settlement_status"
     ];
 
     const rowSelection = {

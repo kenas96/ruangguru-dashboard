@@ -29,7 +29,8 @@ const Contracts = ({
   pagination,
   loading,
   handleTableChange,
-  all
+  all,
+  download
 }) => {
   return (
     <div>
@@ -171,7 +172,7 @@ const Contracts = ({
             </Select>
           </div>
         </Col>
-        <Col span={3}>
+        <Col span={9}>
           <div className="btn__wrapper">
             <div className="btn__wrapper--right">
               <Button
@@ -181,6 +182,14 @@ const Contracts = ({
                 onClick={handleSearch}
               >
                 Filter
+              </Button>
+              <Button
+                type="primary"
+                icon="download"
+                style={{ marginRight: "10px" }}
+                onClick={download}
+              >
+                Download
               </Button>
             </div>
           </div>
@@ -223,7 +232,8 @@ Contracts.propTypes = {
   pagination: PropTypes.instanceOf(Object),
   loading: PropTypes.bool,
   handleTableChange: PropTypes.func,
-  all: PropTypes.bool
+  all: PropTypes.bool,
+  download: PropTypes.func
 };
 
 export default Contracts;

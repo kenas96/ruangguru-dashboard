@@ -40,5 +40,22 @@ export const Constants = {
     { key: "TOTAL_PAYMENT_AMOUNT", value: "total_payment_amount" },
     { key: "REPAYMENT_PERIOD", value: "repayment_period" },
     { key: "REPAYMENT_STATUS", value: "settlement_status" }
+  ],
+  keyValueSettlementContracts: [
+    { key: "MERCHANT_ID", value: "merchant_id" },
+    { key: "NAME", value: "merchant_name" },
+    { key: "CONTRACT_NO", value: "contract_number" },
+    { key: "CATEGORY_TYPE", value: "category_type" },
+    { key: "LENDER", value: "lender" },
+    { key: "APPLIED_DATE", value: "date" },
+    { key: "DUE_DATE", value: "due_date" },
+    { key: "TENOR", value: "tenor" },
+    { key: "MAX_LOAN", value: "max_amount_allowed" },
+    { key: "APPLY_LOAN", value: "loan_amount" },
+    { key: "PROCESSING_FEE", value: "processing_fee" },
+    { key: "LOAN_DISBURSEMENT", value: "loan_disbursement" },
+    { key: "ADMIN_FEE", value: "admin_fee" },
+    { key: "AMOUNT_DISBURSEMENT", value: "amount_disbursement" },
+    { key: "CONTRACT_STATUS", value: "contract_status" }
   ]
 };

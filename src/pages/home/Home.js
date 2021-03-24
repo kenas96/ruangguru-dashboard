@@ -33,24 +33,17 @@ class Home extends React.Component {
   }
 
   getContractList = () => {
-    const params = {
-      page: 1,
-      limit: 10
-    };
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
-    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/pagination`;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/approved`;
     this.setState({ loadingContractList: true });
     axios({
       method: "get",
       url: apiPath,
-      params: {
-        ...params
-      },
       headers: { Authorization: `Bearer ${access_token}` }
     })
       .then(response => {
-        const data = get(response, "data.data.rows", []);
+        const data = get(response, "data.data", []);
         const contracts = data.map((key, index) => {
           return {
             key: key.id,

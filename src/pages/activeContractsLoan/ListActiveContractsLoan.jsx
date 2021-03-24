@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, message, Tabs, Tag } from "antd";
+import { Row, Col, message, Tabs, Tag, Tooltip } from "antd";
 import get from "lodash/get";
 
 import axios from "../../utils/axios";
@@ -8,10 +8,12 @@ import { getCategoryType, getCompany } from "../../service/lenderService";
 import {
   convertDateToEpoch,
   unixFormatDateTimeStripe,
+  unixFormatDateStripe,
   unixFormatDateTime,
   unixFormatDateShort
 } from "../../utils/DateUtils";
 import Contracts from "../../components/contracts/Contracts";
+import { Constants } from "../../utils/Constants";
 
 const { TabPane } = Tabs;
 
@@ -377,7 +379,10 @@ class ListActiveContractsLoan extends React.Component {
         );
         const contracts = data.row.map((key, index) => {
           return {
-            key: key.client_id,
+            key:
+              index +
+              1 +
+              (paginationActive.current - 1) * paginationActive.pageSize,
             merchant_id: key.client_id,
             merchant_name: key.name,
             contract_number: key.contract_number,
@@ -447,7 +452,11 @@ class ListActiveContractsLoan extends React.Component {
         );
         const contracts = data.row.map((key, index) => {
           return {
-            key: key.client_id,
+            key:
+              index +
+              1 +
+              (paginationRenewal.current - 1) * paginationRenewal.pageSize,
+
             merchant_id: key.client_id,
             merchant_name: key.name,
             contract_number: key.contract_number,
@@ -650,6 +659,235 @@ class ListActiveContractsLoan extends React.Component {
     this.handleCriteriaRenewal(unixFormatDateTimeStripe(date), "to");
   };
 
+  download = () => {
+    const { searchCriteria } = this.state;
+    let params = {};
+    searchCriteria.map(item => {
+      params[item.name] = item.value;
+    });
+
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    const { access_token } = user.token;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active/download`;
+    let selectedColumnKey = [];
+    let selectedColumn = [
+      "index",
+      "merchant_name",
+      "category_type",
+      "lender",
+      "tenor",
+      "loan_amount",
+      "processing_fee",
+      "loan_disbursement",
+      "admin_fee",
+      "amount_disbursement",
+      "contract_status"
+    ];
+
+    if (this.state.selectedColumn.length > 0) {
+      selectedColumn = this.state.selectedColumn;
+    }
+
+    selectedColumn.map(data => {
+      let index = Constants.keyValueSettlementContracts.findIndex(
+        x => x.value === data
+      );
+      if (index !== -1) {
+        selectedColumnKey.push(
+          Constants.keyValueSettlementContracts[index].key
+        );
+      }
+    });
+    this.setState({ loading: true });
+    axios({
+      method: "post",
+      url: apiPath,
+      responseType: "blob",
+      headers: { Authorization: "Bearer " + access_token },
+      data: {
+        from: params.from,
+        to: params.to,
+        lenderType: params.lenderType,
+        categoryType: params.categoryType,
+        contractStatus: params.contractStatus,
+        columnList: selectedColumnKey
+      }
+    })
+      .then(response => {
+        this.setState({ loading: false });
+        const date = unixFormatDateStripe(Date.now());
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Contracts-${date}.xls`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        const errMsg = get(error, "response.status", null);
+        if (errMsg === 400) {
+          message.error("Error! Data does not exist!");
+        } else {
+          message.error("Internal server error!");
+        }
+      });
+  };
+
+  downloadActive = () => {
+    const { searchCriteriaActive } = this.state;
+    let params = {
+      contractStatus: "ACTIVE"
+    };
+    searchCriteriaActive.map(item => {
+      params[item.name] = item.value;
+    });
+
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    const { access_token } = user.token;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active/download`;
+    let selectedColumnKey = [];
+    let selectedColumn = [
+      "index",
+      "merchant_name",
+      "category_type",
+      "lender",
+      "tenor",
+      "loan_amount",
+      "processing_fee",
+      "loan_disbursement",
+      "admin_fee",
+      "amount_disbursement",
+      "contract_status"
+    ];
+
+    if (this.state.selectedColumnActive.length > 0) {
+      selectedColumn = this.state.selectedColumnActive;
+    }
+
+    selectedColumn.map(data => {
+      let index = Constants.keyValueSettlementContracts.findIndex(
+        x => x.value === data
+      );
+      if (index !== -1) {
+        selectedColumnKey.push(
+          Constants.keyValueSettlementContracts[index].key
+        );
+      }
+    });
+    this.setState({ loadingActive: true });
+    axios({
+      method: "post",
+      url: apiPath,
+      responseType: "blob",
+      headers: { Authorization: "Bearer " + access_token },
+      data: {
+        from: params.from,
+        to: params.to,
+        lenderType: params.lenderType,
+        categoryType: params.categoryType,
+        contractStatus: params.contractStatus,
+        columnList: selectedColumnKey
+      }
+    })
+      .then(response => {
+        this.setState({ loadingActive: false });
+        const date = unixFormatDateStripe(Date.now());
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Contracts-Active-${date}.xls`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        this.setState({ loadingActive: false });
+        const errMsg = get(error, "response.status", null);
+        if (errMsg === 400) {
+          message.error("Error! Data does not exist!");
+        } else {
+          message.error("Internal server error!");
+        }
+      });
+  };
+
+  downloadRenewal = () => {
+    const { searchCriteriaRenewal } = this.state;
+    let params = {
+      contractStatus: "RENEWAL"
+    };
+    searchCriteriaRenewal.map(item => {
+      params[item.name] = item.value;
+    });
+
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    const { access_token } = user.token;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active/download`;
+    let selectedColumnKey = [];
+    let selectedColumn = [
+      "index",
+      "merchant_name",
+      "category_type",
+      "lender",
+      "tenor",
+      "loan_amount",
+      "processing_fee",
+      "loan_disbursement",
+      "admin_fee",
+      "amount_disbursement",
+      "contract_status"
+    ];
+
+    if (this.state.selectedColumnRenewal.length > 0) {
+      selectedColumn = this.state.selectedColumnRenewal;
+    }
+
+    selectedColumn.map(data => {
+      let index = Constants.keyValueSettlementContracts.findIndex(
+        x => x.value === data
+      );
+      if (index !== -1) {
+        selectedColumnKey.push(
+          Constants.keyValueSettlementContracts[index].key
+        );
+      }
+    });
+    this.setState({ loadingRenewal: true });
+    axios({
+      method: "post",
+      url: apiPath,
+      responseType: "blob",
+      headers: { Authorization: "Bearer " + access_token },
+      data: {
+        from: params.from,
+        to: params.to,
+        lenderType: params.lenderType,
+        categoryType: params.categoryType,
+        contractStatus: params.contractStatus,
+        columnList: selectedColumnKey
+      }
+    })
+      .then(response => {
+        this.setState({ loadingRenewal: false });
+        const date = unixFormatDateStripe(Date.now());
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Contracts-Renewal-${date}.xls`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        this.setState({ loadingRenewal: false });
+        const errMsg = get(error, "response.status", null);
+        if (errMsg === 400) {
+          message.error("Error! Data does not exist!");
+        } else {
+          message.error("Internal server error!");
+        }
+      });
+  };
+
   render() {
     const {
       data,
@@ -736,7 +974,7 @@ class ListActiveContractsLoan extends React.Component {
         show: true
       },
       {
-        title: "Processing Fee (1,25%)",
+        title: "Processing Fee",
         dataIndex: "processing_fee",
         show: true
       },
@@ -746,7 +984,11 @@ class ListActiveContractsLoan extends React.Component {
         show: true
       },
       {
-        title: "Admin Fee",
+        title: (
+          <Tooltip title={"This is Admin Fee"}>
+            <span>Admin Fee</span>
+          </Tooltip>
+        ),
         dataIndex: "admin_fee",
         show: true
       },
@@ -1051,6 +1293,7 @@ class ListActiveContractsLoan extends React.Component {
               loading={loading}
               handleTableChange={this.handleTableChange}
               all={true}
+              download={this.download}
             />
           </TabPane>
           <TabPane tab="Active" key="2">
@@ -1078,6 +1321,7 @@ class ListActiveContractsLoan extends React.Component {
               loading={loadingActive}
               handleTableChange={this.handleTableChangeActive}
               all={false}
+              download={this.downloadActive}
             />
           </TabPane>
           <TabPane tab="Renewal" key="3">
@@ -1105,6 +1349,7 @@ class ListActiveContractsLoan extends React.Component {
               loading={loadingRenewal}
               handleTableChange={this.handleTableChangeRenewal}
               all={false}
+              download={this.downloadRenewal}
             />
           </TabPane>
         </Tabs>
