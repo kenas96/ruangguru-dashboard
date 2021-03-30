@@ -231,7 +231,7 @@ class ListTransaction extends React.Component {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `Transaction-${date}.xls`);
+        link.setAttribute("download", `Transaction-${date}.xlsx`);
         document.body.appendChild(link);
         link.click();
       })

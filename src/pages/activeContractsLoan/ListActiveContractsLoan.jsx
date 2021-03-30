@@ -719,7 +719,7 @@ class ListActiveContractsLoan extends React.Component {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `Contracts-${date}.xls`);
+        link.setAttribute("download", `Contracts-${date}.xlsx`);
         document.body.appendChild(link);
         link.click();
       })
@@ -796,7 +796,7 @@ class ListActiveContractsLoan extends React.Component {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `Contracts-Active-${date}.xls`);
+        link.setAttribute("download", `Contracts-Active-${date}.xlsx`);
         document.body.appendChild(link);
         link.click();
       })
@@ -873,7 +873,7 @@ class ListActiveContractsLoan extends React.Component {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `Contracts-Renewal-${date}.xls`);
+        link.setAttribute("download", `Contracts-Renewal-${date}.xlsx`);
         document.body.appendChild(link);
         link.click();
       })
