@@ -270,7 +270,6 @@ class ListRepayment extends React.Component {
         "merchant_name",
         "category_type",
         "lender",
-        "loan_amount",
         "repayment_date",
         "penalty_day",
         "total_payment_amount",
@@ -291,8 +290,8 @@ class ListRepayment extends React.Component {
         }
       });
 
-      if (selectedColumnKey.length > 9) {
-        message.warning("Maximum data column is 9!");
+      if (selectedColumnKey.length > 8) {
+        message.warning("Maximum data column is 8!");
       } else {
         this.setState({ loading: true });
         axios({
@@ -390,7 +389,7 @@ class ListRepayment extends React.Component {
       {
         title: "Loan Approve",
         dataIndex: "loan_amount",
-        show: true
+        show: false
       },
       {
         title: "Loan Disbursement",
@@ -469,7 +468,6 @@ class ListRepayment extends React.Component {
       "merchant_name",
       "category_type",
       "lender",
-      "loan_amount",
       "repayment_date",
       "penalty_day",
       "total_payment_amount",
@@ -570,6 +568,7 @@ class ListRepayment extends React.Component {
                 style={{ width: "60%" }}
                 placeholder="Lender"
                 onChange={event => this.handleCriteria(event, "lenderType")}
+                disabled={lender.length === 0}
               >
                 {lender.map(data => (
                   <Option key={Math.random()} value={data.companyName}>

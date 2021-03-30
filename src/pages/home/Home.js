@@ -314,7 +314,7 @@ class Home extends React.Component {
       <div>
         <Row gutter={16}>
           <Col span={12}>
-            <h2>Portofolio Summary</h2>
+            <h2>Portfolio Summary</h2>
           </Col>
         </Row>
         <Row gutter={4}>

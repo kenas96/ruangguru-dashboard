@@ -102,6 +102,10 @@ class Login extends React.Component {
     Notifications("error", "email and password did not match");
   };
 
+  contactMail = () => {
+    window.location.href = "mailto:customercare@myboost.id";
+  };
+
   render() {
     const {
       form: { getFieldsError, getFieldDecorator },
@@ -186,7 +190,8 @@ class Login extends React.Component {
             <FormItem style={{ textAlign: "center" }}>
               Having trouble signing in?
               <br />
-              Please contact <a>customercare@myboost.id</a>
+              Please contact{" "}
+              <a onClick={this.contactMail}>customercare@myboost.id</a>
             </FormItem>
           </Form>
         </div>
@@ -199,12 +204,7 @@ class Login extends React.Component {
           footer={null}
         >
           <div style={{ padding: "0px 55px", textAlign: "center" }}>
-            <img
-              alt="logo"
-              src="../../assets/image/logoboost.png"
-              className="logo-modal"
-            />
-
+            <img alt="logoModal" src={Logo} className="logo-modal" />
             <div style={{ padding: "30px 0px 10px 0px", fontWeight: "bold" }}>
               {!isRecover && (
                 <p>

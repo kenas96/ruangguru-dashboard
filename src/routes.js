@@ -131,8 +131,8 @@ const routes = [
     id: 8,
     title: "Change Password",
     hideSidebar: true,
-    show_headers: false,
-    path: "/change-password/:key",
+    show_headers: true,
+    path: "/change-password",
     component: ChangePassword
   }
 ];
