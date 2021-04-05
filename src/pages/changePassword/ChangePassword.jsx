@@ -280,7 +280,7 @@ class ChangePassword extends React.Component {
                       />
                     }
                     type={passwordConfVisibility ? "text" : "password"}
-                    placeholder="Comfirm Password"
+                    placeholder="Confirm Password"
                     addonAfter={
                       <Icon
                         id="passwordConfVisibility"

@@ -200,18 +200,17 @@ class Login extends React.Component {
           title="Recover Password"
           visible={isForgot}
           onCancel={this.forgotPasswordToogle}
-          width="500"
           footer={null}
         >
           <div style={{ padding: "0px 55px", textAlign: "center" }}>
             <img alt="logoModal" src={Logo} className="logo-modal" />
-            <div style={{ padding: "30px 0px 10px 0px", fontWeight: "bold" }}>
+            <div style={{ padding: "10px 0px 10px 0px", fontWeight: "bold" }}>
               {!isRecover && (
                 <p>
                   {/* Please enter the email address you used to create your
                   account, and we will send you a link to reset your password. */}
                   <br />
-                  <h2>Silahkan menghubungi Tech Ops.</h2>
+                  <h3>Silahkan menghubungi Tech Ops.</h3>
                   <br />
                 </p>
               )}
