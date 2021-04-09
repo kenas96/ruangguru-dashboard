@@ -53,9 +53,9 @@ const Contracts = ({
             </Select>
           </div>
         </Col>
-        <Col span={6}>
+        <Col span={7}>
           <div className="btn__wrapper">
-            <h4 style={{ marginTop: "5px" }}>Start Date: </h4>
+            <h4 style={{ marginTop: "5px" }}>Start Applied Date: </h4>
             <DatePicker
               name="startDate"
               className="date_picker--position"
@@ -68,9 +68,9 @@ const Contracts = ({
             />
           </div>
         </Col>
-        <Col span={6}>
+        <Col span={7}>
           <div className="btn__wrapper">
-            <h4 style={{ marginTop: "5px" }}>End Date: </h4>
+            <h4 style={{ marginTop: "5px" }}>End Applied Date: </h4>
             <DatePicker
               name="endDate"
               className="date_picker--position"
@@ -94,6 +94,7 @@ const Contracts = ({
               style={{ width: "60%" }}
               placeholder="Lender"
               onChange={event => handleCriteria(event, "lenderType")}
+              disabled={lender.length === 0}
             >
               {lender.map(data => (
                 <Option key={Math.random()} value={data.companyName}>
@@ -103,7 +104,7 @@ const Contracts = ({
             </Select>
           </div>
         </Col>
-        <Col span={6}>
+        <Col span={7}>
           <div className="btn__wrapper">
             <h4 style={{ marginTop: "5px" }}>Start Time: </h4>
             <TimePicker
@@ -117,7 +118,7 @@ const Contracts = ({
             />
           </div>
         </Col>
-        <Col span={6}>
+        <Col span={7}>
           <div className="btn__wrapper">
             <h4 style={{ marginTop: "5px" }}>End Time: </h4>
             <TimePicker

@@ -418,7 +418,7 @@ class ListWatchlist extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>Start Date: </h4>
               <DatePicker
@@ -433,7 +433,7 @@ class ListWatchlist extends React.Component {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>End Date: </h4>
               <DatePicker
@@ -459,6 +459,7 @@ class ListWatchlist extends React.Component {
                 style={{ width: "60%" }}
                 placeholder="Lender"
                 onChange={event => this.handleCriteria(event, "lenderType")}
+                disabled={lender.length === 0}
               >
                 {lender.map(data => (
                   <Option key={Math.random()} value={data.companyName}>
@@ -468,7 +469,7 @@ class ListWatchlist extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>Start Time: </h4>
               <TimePicker
@@ -482,7 +483,7 @@ class ListWatchlist extends React.Component {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>End Time: </h4>
               <TimePicker

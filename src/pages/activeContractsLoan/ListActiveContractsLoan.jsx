@@ -13,7 +13,6 @@ import {
   unixFormatDateShort
 } from "../../utils/DateUtils";
 import Contracts from "../../components/contracts/Contracts";
-import { Constants } from "../../utils/Constants";
 
 const { TabPane } = Tabs;
 
@@ -669,35 +668,6 @@ class ListActiveContractsLoan extends React.Component {
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
     const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active/download`;
-    let selectedColumnKey = [];
-    let selectedColumn = [
-      "index",
-      "merchant_name",
-      "category_type",
-      "lender",
-      "tenor",
-      "loan_amount",
-      "processing_fee",
-      "loan_disbursement",
-      "admin_fee",
-      "amount_disbursement",
-      "contract_status"
-    ];
-
-    if (this.state.selectedColumn.length > 0) {
-      selectedColumn = this.state.selectedColumn;
-    }
-
-    selectedColumn.map(data => {
-      let index = Constants.keyValueSettlementContracts.findIndex(
-        x => x.value === data
-      );
-      if (index !== -1) {
-        selectedColumnKey.push(
-          Constants.keyValueSettlementContracts[index].key
-        );
-      }
-    });
     this.setState({ loading: true });
     axios({
       method: "post",
@@ -709,8 +679,7 @@ class ListActiveContractsLoan extends React.Component {
         to: params.to,
         lenderType: params.lenderType,
         categoryType: params.categoryType,
-        contractStatus: params.contractStatus,
-        columnList: selectedColumnKey
+        contractStatus: params.contractStatus
       }
     })
       .then(response => {
@@ -742,39 +711,9 @@ class ListActiveContractsLoan extends React.Component {
     searchCriteriaActive.map(item => {
       params[item.name] = item.value;
     });
-
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
     const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active/download`;
-    let selectedColumnKey = [];
-    let selectedColumn = [
-      "index",
-      "merchant_name",
-      "category_type",
-      "lender",
-      "tenor",
-      "loan_amount",
-      "processing_fee",
-      "loan_disbursement",
-      "admin_fee",
-      "amount_disbursement",
-      "contract_status"
-    ];
-
-    if (this.state.selectedColumnActive.length > 0) {
-      selectedColumn = this.state.selectedColumnActive;
-    }
-
-    selectedColumn.map(data => {
-      let index = Constants.keyValueSettlementContracts.findIndex(
-        x => x.value === data
-      );
-      if (index !== -1) {
-        selectedColumnKey.push(
-          Constants.keyValueSettlementContracts[index].key
-        );
-      }
-    });
     this.setState({ loadingActive: true });
     axios({
       method: "post",
@@ -786,8 +725,7 @@ class ListActiveContractsLoan extends React.Component {
         to: params.to,
         lenderType: params.lenderType,
         categoryType: params.categoryType,
-        contractStatus: params.contractStatus,
-        columnList: selectedColumnKey
+        contractStatus: params.contractStatus
       }
     })
       .then(response => {
@@ -819,39 +757,9 @@ class ListActiveContractsLoan extends React.Component {
     searchCriteriaRenewal.map(item => {
       params[item.name] = item.value;
     });
-
     const user = JSON.parse(window.localStorage.getItem("user"));
     const { access_token } = user.token;
     const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/active/download`;
-    let selectedColumnKey = [];
-    let selectedColumn = [
-      "index",
-      "merchant_name",
-      "category_type",
-      "lender",
-      "tenor",
-      "loan_amount",
-      "processing_fee",
-      "loan_disbursement",
-      "admin_fee",
-      "amount_disbursement",
-      "contract_status"
-    ];
-
-    if (this.state.selectedColumnRenewal.length > 0) {
-      selectedColumn = this.state.selectedColumnRenewal;
-    }
-
-    selectedColumn.map(data => {
-      let index = Constants.keyValueSettlementContracts.findIndex(
-        x => x.value === data
-      );
-      if (index !== -1) {
-        selectedColumnKey.push(
-          Constants.keyValueSettlementContracts[index].key
-        );
-      }
-    });
     this.setState({ loadingRenewal: true });
     axios({
       method: "post",
@@ -863,8 +771,7 @@ class ListActiveContractsLoan extends React.Component {
         to: params.to,
         lenderType: params.lenderType,
         categoryType: params.categoryType,
-        contractStatus: params.contractStatus,
-        columnList: selectedColumnKey
+        contractStatus: params.contractStatus
       }
     })
       .then(response => {

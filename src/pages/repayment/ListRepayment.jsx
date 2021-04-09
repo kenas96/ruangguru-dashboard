@@ -179,6 +179,9 @@ class ListRepayment extends React.Component {
             settlement_status: key.settlement_status
               ? key.settlement_status.toLowerCase()
               : "-",
+            created_at: key.created_at
+              ? unixFormatDateStripe(key.created_at)
+              : "-",
             index: index + 1 + (pagination.current - 1) * pagination.pageSize
           };
         });
@@ -257,7 +260,7 @@ class ListRepayment extends React.Component {
     this.handleCriteria(unixFormatDateTimeStripe(date), "to");
   };
 
-  download = () => {
+  update = () => {
     if (this.state.downloadRow.length === 0) {
       message.warning("Please choose data row first!");
     } else {
@@ -274,7 +277,120 @@ class ListRepayment extends React.Component {
         "penalty_day",
         "total_payment_amount",
         "repayment_period",
-        "settlement_status"
+        "created_at"
+      ];
+
+      if (this.state.selectedColumn.length > 0) {
+        selectedColumn = this.state.selectedColumn;
+      }
+
+      selectedColumn.map(data => {
+        let index = Constants.keyValueSettlement.findIndex(
+          x => x.value === data
+        );
+        if (index !== -1) {
+          selectedColumnKey.push(Constants.keyValueSettlement[index].key);
+        }
+      });
+
+      if (selectedColumnKey.length > 8) {
+        message.warning("Maximum data column is 8!");
+      } else {
+        this.setState({ loading: true });
+        axios({
+          method: "post",
+          url: apiPath,
+          responseType: "blob",
+          headers: { Authorization: "Bearer " + access_token },
+          data: {
+            repaymentList: this.state.downloadRow,
+            columnList: selectedColumnKey
+          }
+        })
+          .then(response => {
+            this.fetch();
+            this.setState({ loading: false });
+            const date = unixFormatDateStripe(Date.now());
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `Updated-settlement-${date}.docx`);
+            document.body.appendChild(link);
+            link.click();
+          })
+          .catch(error => {
+            this.setState({ loading: false });
+            const errMsg = get(error, "response.status", null);
+            if (errMsg === 400) {
+              message.error("Error! Data does not exist!");
+            } else {
+              message.error("Internal server error!");
+            }
+          });
+      }
+    }
+  };
+
+  download = () => {
+    const { searchCriteria } = this.state;
+    let params = {};
+
+    searchCriteria.map(item => {
+      params[item.name] = item.value;
+    });
+
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    const { access_token } = user.token;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/repayment/download`;
+    this.setState({ loading: true });
+    axios({
+      method: "post",
+      url: apiPath,
+      responseType: "blob",
+      headers: { Authorization: "Bearer " + access_token },
+      params: {
+        ...params
+      }
+    })
+      .then(response => {
+        this.setState({ loading: false });
+        const date = unixFormatDateStripe(Date.now());
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Repayment-${date}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        const errMsg = get(error, "response.status", null);
+        if (errMsg === 400) {
+          message.error("Error! Data does not exist!");
+        } else {
+          message.error("Internal server error!");
+        }
+      });
+  };
+
+  settlement = () => {
+    if (this.state.downloadRow.length === 0) {
+      message.warning("Please choose data row first!");
+    } else {
+      const user = JSON.parse(window.localStorage.getItem("user"));
+      const { access_token } = user.token;
+      const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/repayment/download/settlement`;
+      let selectedColumnKey = [];
+      let selectedColumn = [
+        "index",
+        "merchant_name",
+        "category_type",
+        "lender",
+        "repayment_date",
+        "penalty_day",
+        "total_payment_amount",
+        "repayment_period",
+        "created_at"
       ];
 
       if (this.state.selectedColumn.length > 0) {
@@ -456,10 +572,10 @@ class ListRepayment extends React.Component {
           )
       },
       {
-        title: "Transfer Status",
-        dataIndex: "settlement_status",
+        title: "Transfer Date",
+        dataIndex: "created_at",
         show: true,
-        render: (text, record) => <b>{record.settlement_status}</b>
+        render: (text, record) => <b>{record.created_at}</b>
       }
     ];
 
@@ -472,7 +588,7 @@ class ListRepayment extends React.Component {
       "penalty_day",
       "total_payment_amount",
       "repayment_period",
-      "settlement_status"
+      "created_at"
     ];
 
     const rowSelection = {
@@ -527,7 +643,7 @@ class ListRepayment extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>Start Date: </h4>
               <DatePicker
@@ -542,7 +658,7 @@ class ListRepayment extends React.Component {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>End Date: </h4>
               <DatePicker
@@ -578,7 +694,7 @@ class ListRepayment extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>Start Time: </h4>
               <TimePicker
@@ -592,7 +708,7 @@ class ListRepayment extends React.Component {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>End Time: </h4>
               <TimePicker
@@ -647,7 +763,7 @@ class ListRepayment extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={9}>
+          <Col span={12}>
             <div className="btn__wrapper">
               <div className="btn__wrapper--right">
                 <Button
@@ -659,12 +775,28 @@ class ListRepayment extends React.Component {
                   Filter
                 </Button>
                 <Button
+                  type="default"
+                  icon="form"
+                  style={{ marginRight: "10px" }}
+                  onClick={this.settlement}
+                >
+                  Settlement
+                </Button>
+                <Button
+                  type="primary"
+                  icon="save"
+                  style={{ marginRight: "10px" }}
+                  onClick={this.update}
+                >
+                  Update
+                </Button>
+                <Button
                   type="primary"
                   icon="download"
                   style={{ marginRight: "10px" }}
                   onClick={this.download}
                 >
-                  Settlement
+                  Download
                 </Button>
               </div>
             </div>

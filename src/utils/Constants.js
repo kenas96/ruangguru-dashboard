@@ -39,7 +39,7 @@ export const Constants = {
     { key: "PENALTY_DAY", value: "penalty_day" },
     { key: "TOTAL_PAYMENT_AMOUNT", value: "total_payment_amount" },
     { key: "REPAYMENT_PERIOD", value: "repayment_period" },
-    { key: "REPAYMENT_STATUS", value: "settlement_status" }
+    { key: "CREATED_AT", value: "created_at" }
   ],
   keyValueSettlementContracts: [
     { key: "MERCHANT_ID", value: "merchant_id" },

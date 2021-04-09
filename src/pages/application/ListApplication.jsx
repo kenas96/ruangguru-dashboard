@@ -17,6 +17,7 @@ import { getCategoryType, getCompany } from "../../service/lenderService";
 import {
   convertDateToEpoch,
   unixFormatDateTimeStripe,
+  unixFormatDateStripe,
   unixFormatDateTime
 } from "../../utils/DateUtils";
 
@@ -162,9 +163,9 @@ class ListApplication extends React.Component {
             lender: key.product.lender.name,
             date: unixFormatDateTime(key.signInDate),
             tenor:
-              key.product.penaltyTerm +
+              key.product.loanTerm.term +
               " " +
-              key.product.penaltyTermUnit.toLowerCase() +
+              key.product.loanTerm.termUnit.toLowerCase() +
               "(s)",
             max_loan: currencyFormatter(key.product.loan.amount),
             status_scoring: key.status_scoring,
@@ -244,6 +245,49 @@ class ListApplication extends React.Component {
       0
     );
     this.handleCriteria(unixFormatDateTimeStripe(date), "to");
+  };
+
+  download = () => {
+    const { searchCriteria } = this.state;
+    let params = {};
+    searchCriteria.map(item => {
+      params[item.name] = item.value;
+    });
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    const { access_token } = user.token;
+    const apiPath = `${process.env.REACT_APP_SERVER_API}qredit/v1/contract/list/download`;
+    this.setState({ loading: true });
+    axios({
+      method: "post",
+      url: apiPath,
+      responseType: "blob",
+      headers: { Authorization: "Bearer " + access_token },
+      data: {
+        from: params.from,
+        to: params.to,
+        categoryType: params.categoryType,
+        lenderType: params.lenderType
+      }
+    })
+      .then(response => {
+        this.setState({ loading: false });
+        const date = unixFormatDateStripe(Date.now());
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Application-${date}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        const errMsg = get(error, "response.status", null);
+        if (errMsg === 400) {
+          message.error("Error! Data does not exist!");
+        } else {
+          message.error("Internal server error!");
+        }
+      });
   };
 
   render() {
@@ -361,7 +405,7 @@ class ListApplication extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>Start Date: </h4>
               <DatePicker
@@ -377,7 +421,7 @@ class ListApplication extends React.Component {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>End Date: </h4>
               <DatePicker
@@ -403,6 +447,7 @@ class ListApplication extends React.Component {
                 style={{ width: "60%" }}
                 placeholder="Lender"
                 onChange={event => this.handleCriteria(event, "lenderType")}
+                disabled={lender.length === 0}
               >
                 {lender.map(data => (
                   <Option key={Math.random()} value={data.companyName}>
@@ -412,7 +457,7 @@ class ListApplication extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>Start Time: </h4>
               <TimePicker
@@ -426,7 +471,7 @@ class ListApplication extends React.Component {
               />
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <div className="btn__wrapper">
               <h4 style={{ marginTop: "5px" }}>End Time: </h4>
               <TimePicker
@@ -461,7 +506,7 @@ class ListApplication extends React.Component {
               </Select>
             </div>
           </Col>
-          <Col span={3}>
+          <Col span={9}>
             <div className="btn__wrapper">
               <div className="btn__wrapper--right">
                 <Button
@@ -471,6 +516,14 @@ class ListApplication extends React.Component {
                   onClick={this.handleSearch}
                 >
                   Filter
+                </Button>
+                <Button
+                  type="primary"
+                  icon="download"
+                  style={{ marginRight: "10px" }}
+                  onClick={this.download}
+                >
+                  Download
                 </Button>
               </div>
             </div>
