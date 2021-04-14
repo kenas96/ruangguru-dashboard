@@ -24,7 +24,7 @@ export const getAllRole = () => {
 export const getAllGroup = () => {
   const user = JSON.parse(window.localStorage.getItem("user"));
   const { access_token } = user.token;
-  const URL = `${process.env.REACT_APP_SERVER_API}qredit/v1/group/list?page=1&limit=50`;
+  const URL = `${process.env.REACT_APP_SERVER_API}qredit/v1/group/list?first=0&max=50`;
   const options = {
     headers: {
       Authorization: "Bearer " + access_token
