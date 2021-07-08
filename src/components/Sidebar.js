@@ -17,7 +17,7 @@ const Sidebar = ({ collapsed }) => {
       className={`layout__sidebar ${collapsed ? "collapsed" : ""}`}
     >
       <div className="layout__sidebar--logo">
-        <img src={collapsed ? LogoCollapsed : LogoCollapsed} alt="Logo" />
+        <img src={collapsed ? LogoCollapsed : Logo} alt="Logo" />
       </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
         {routes.map((route, index) => {
