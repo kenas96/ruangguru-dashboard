@@ -1,123 +1,28 @@
-import { Home, Logout, ChangePassword } from "./pages";
+import { Logout } from "./pages";
 
-import ListUserRolePermission from "./pages/userRolePermission/list/ListUserRolePermission";
-import CreateUserRolePermission from "./pages/userRolePermission/create/CreateUserRolePermission";
-import DetailUserRolePermission from "./pages/userRolePermission/detail/DetailUserRolePermission";
-import UpdateUserRolePermission from "./pages/userRolePermission/update/UpdateUserRolePermission";
-
-import ListUserPrivilege from "./pages/userPrivilege/list/ListUserPrivilege";
-import CreateUserPrivilege from "./pages/userPrivilege/create/CreateUserPrivilege";
-import UpdateUserPrivilege from "./pages/userPrivilege/update/UpdateUserPrivilege";
-
-import ListApplication from "./pages/application/ListApplication";
-import ListActiveContractsLoan from "./pages/activeContractsLoan/ListActiveContractsLoan";
-import ListRepayment from "./pages/repayment/ListRepayment";
-import ListWatchlist from "./pages/watchlist/ListWatchlist";
-import ListTransaction from "./pages/transaction/ListTransaction";
-
-let permission = {};
-
-const user = JSON.parse(window.localStorage.getItem("user"));
-if (user) {
-  const roles = user.info.resource_access["boost-qredit-portal-dev"].roles;
-  roles.map(key => {
-    permission[key] = 1;
-  });
-}
+import ListSubscribedUser from "./pages/subscribedUser/list/ListSubscribedUser";
+import DetailSubscribedUser from "./pages/subscribedUser/detail/DetailSubscribedUser";
 
 const routes = [
   {
     id: "home",
-    icon: "home",
+    hideSidebar: true,
     title: "Home",
     path: "/",
-    component: Home
+    component: ListSubscribedUser
   },
   {
-    id: "userRole",
-    hideSidebar: permission.GET_ROLE_PERMISSIONS == 0 ? true : false,
+    id: "user",
     icon: "user",
-    title: "User Role",
-    path: "/user-role",
-    component: ListUserRolePermission
-  },
-  {
-    hideSidebar: true,
-    title: "Create User Role",
-    path: "/create-user-role",
-    component: CreateUserRolePermission
-  },
-  {
-    hideSidebar: true,
-    title: "Detail User Role",
-    path: "/user-role/detail/:id/",
-    component: DetailUserRolePermission
-  },
-  {
-    hideSidebar: true,
-    title: "Edit User Role",
-    path: "/user-role/edit/:id/",
-    component: UpdateUserRolePermission
-  },
-  {
-    id: "userPrivilege",
-    hideSidebar: permission.GET_ALL_USER == 0 ? true : false,
-    icon: "team",
-    title: "User Privilege",
+    title: "User",
     path: "/user",
-    component: ListUserPrivilege
+    component: ListSubscribedUser
   },
   {
     hideSidebar: true,
-    title: "Create User",
-    path: "/create-user",
-    component: CreateUserPrivilege
-  },
-  {
-    hideSidebar: true,
-    title: "Edit User",
-    path: "/user/edit/:id/",
-    component: UpdateUserPrivilege
-  },
-  {
-    id: "application",
-    hideSidebar: permission.GET_APPLICATIONS == 0 ? true : false,
-    icon: "contacts",
-    title: "Application",
-    path: "/application",
-    component: ListApplication
-  },
-  {
-    id: "activeContractsLoan",
-    hideSidebar: permission.GET_ACTIVE_CONTRACT_LOAN == 0 ? true : false,
-    icon: "credit-card",
-    title: "Active Contracts Loan",
-    path: "/active-contracts-loan",
-    component: ListActiveContractsLoan
-  },
-  {
-    id: "repayment",
-    hideSidebar: permission.GET_REPAYMENT == 0 ? true : false,
-    icon: "swap",
-    title: "Repayment",
-    path: "/repayment",
-    component: ListRepayment
-  },
-  {
-    id: "watchlist",
-    hideSidebar: permission.GET_WATCHLIST == 0 ? true : false,
-    icon: "exclamation-circle",
-    title: "Watchlist",
-    path: "/watchlist",
-    component: ListWatchlist
-  },
-  {
-    id: "transaction",
-    hideSidebar: permission.GET_TRANSACTION == 0 ? true : false,
-    icon: "line-chart",
-    title: "Transaction",
-    path: "/transaction",
-    component: ListTransaction
+    title: "Prize Subscribed User",
+    path: "/user/prize/:id/",
+    component: DetailSubscribedUser
   },
   {
     id: 7,
@@ -126,14 +31,6 @@ const routes = [
     hideSidebar: true,
     path: "/logout",
     component: Logout
-  },
-  {
-    id: 8,
-    title: "Change Password",
-    hideSidebar: true,
-    show_headers: true,
-    path: "/change-password",
-    component: ChangePassword
   }
 ];
 

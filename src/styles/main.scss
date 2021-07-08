@@ -1,9 +1,9 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
-@import './utils/variables';
+@import "./utils/variables";
 
-@import './layout';
-@import './pages/pages';
+@import "./layout";
+@import "./pages/pages";
 
 .ant-form-item.v-center {
   display: flex;

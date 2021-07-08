@@ -79,7 +79,7 @@ const Headers = ({ onClick, collapsed }) => {
             className="trigger"
             type={collapsed ? "menu-unfold" : "menu-fold"}
           />
-          <span className="layout__title">Boost Qredit Portal</span>
+          <span className="layout__title">Ruang Guru Dashboard</span>
         </div>
 
         <div className="layout__headers--right-menu">

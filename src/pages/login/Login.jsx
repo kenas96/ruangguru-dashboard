@@ -1,11 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { Form, Icon, Input, Button, Modal } from "antd";
+import { Form, Icon, Input, Button } from "antd";
 import { connect } from "react-redux";
-import Notifications from "../../components/notifications/notifications";
 import { auth } from "../../actions";
-import Color from "../../utils/color";
-import Logo from "../../assets/image/logoboost.png";
+import Logo from "../../assets/image/logo.png";
 
 const FormItem = Form.Item;
 
@@ -22,7 +20,8 @@ class Login extends React.Component {
     isForgot: false,
     showPassword: false,
     email: "",
-    password: ""
+    password: "",
+    contact: "kenas.dermawan@gmail.com"
   };
 
   componentDidMount() {
@@ -37,25 +36,6 @@ class Login extends React.Component {
     this.setState({
       showPassword: !showPassword
     });
-  };
-
-  forgotPasswordToogle = () => {
-    const { isForgot } = this.state;
-    this.setState({
-      isForgot: !isForgot
-    });
-  };
-
-  forgotPasswordToogleReset = () => {
-    this.setState({ isForgot: false });
-  };
-
-  recoverHandle = () => {
-    this.setState({ isRecover: true });
-  };
-
-  backHandle = () => {
-    this.setState({ isRecover: false, isForgot: false });
   };
 
   handleChange = e => {
@@ -91,19 +71,15 @@ class Login extends React.Component {
     const { email, password } = this.state;
     validateFields(() => {
       const payload = {
-        email: email.toLowerCase(),
+        email,
         password
       };
       fetchLogin(payload);
     });
   };
 
-  showNotif = () => {
-    Notifications("error", "email and password did not match");
-  };
-
   contactMail = () => {
-    window.location.href = "mailto:customercare@myboost.id";
+    window.location.href = "mailto:" + this.state.contact;
   };
 
   render() {
@@ -111,14 +87,14 @@ class Login extends React.Component {
       form: { getFieldsError, getFieldDecorator },
       loading
     } = this.props;
-    const { showPassword, isForgot, isRecover } = this.state;
+    const { showPassword, contact } = this.state;
 
     const view = (
       <div className="isoLoginContent">
         <div className="logoWrapper">
           <img alt="logo" src={Logo} className="logo-login" />
         </div>
-        <div className="titleWrapper">BOOST QREDIT PORTAL</div>
+        <div className="titleWrapper">RUANG GURU DASHBOARD</div>
         <div className="isoLogoWrapper">
           <Form onSubmit={this.handleSubmit} className="form-login">
             <FormItem
@@ -134,7 +110,7 @@ class Login extends React.Component {
                   prefix={
                     <Icon
                       type="mail"
-                      style={{ color: Color.BLACK_TRANSPARENT }}
+                      style={{ color: "rgba(0, 0, 0, 0.25)" }}
                     />
                   }
                   placeholder="Email"
@@ -156,7 +132,7 @@ class Login extends React.Component {
                   prefix={
                     <Icon
                       type="lock"
-                      style={{ color: Color.BLACK_TRANSPARENT }}
+                      style={{ color: "rgba(0, 0, 0, 0.25)" }}
                     />
                   }
                   type={showPassword ? "text" : "password"}
@@ -170,11 +146,6 @@ class Login extends React.Component {
                   }
                 />
               )}
-            </FormItem>
-            <FormItem style={{ marginBottom: 15 }}>
-              <a style={{ float: "right" }} onClick={this.forgotPasswordToogle}>
-                Forgot password?
-              </a>
             </FormItem>
             <FormItem>
               <Button
@@ -190,80 +161,10 @@ class Login extends React.Component {
             <FormItem style={{ textAlign: "center" }}>
               Having trouble signing in?
               <br />
-              Please contact{" "}
-              <a onClick={this.contactMail}>customercare@myboost.id</a>
+              Please contact <a onClick={this.contactMail}>{contact}</a>
             </FormItem>
           </Form>
         </div>
-
-        <Modal
-          title="Recover Password"
-          visible={isForgot}
-          onCancel={this.forgotPasswordToogle}
-          footer={null}
-        >
-          <div style={{ padding: "0px 55px", textAlign: "center" }}>
-            <img alt="logoModal" src={Logo} className="logo-modal" />
-            <div style={{ padding: "10px 0px 10px 0px", fontWeight: "bold" }}>
-              {!isRecover && (
-                <p>
-                  {/* Please enter the email address you used to create your
-                  account, and we will send you a link to reset your password. */}
-                  <br />
-                  <h3>Silahkan menghubungi Tech Ops.</h3>
-                  <br />
-                </p>
-              )}
-              {/* {isRecover && (
-                <p>
-                  Thank you. <br />A temporary password has been sent to your
-                  registered email address.
-                </p>
-              )} */}
-            </div>
-            {/* {!isRecover && (
-              <Form
-                onSubmit={this.handleSubmit}
-                style={{ padding: "10px 0px" }}
-              >
-                <FormItem
-                  validateStatus={this.getErrorField("email") ? "error" : ""}
-                  help={this.getErrorField("email") || ""}
-                >
-                  {getFieldDecorator("email", {
-                    rules: [
-                      { required: true, message: "Please input your Email!" }
-                    ]
-                  })(
-                    <Input
-                      name="email"
-                      onChange={this.handleChange}
-                      placeholder="Email Address"
-                    />
-                  )}
-                </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    loading={loading}
-                    onClick={this.recoverHandle}
-                  >
-                    RECOVER
-                  </Button>
-                </FormItem>
-              </Form>
-            )} */}
-            {/* {isRecover && (
-              <Button
-                type="primary"
-                loading={loading}
-                onClick={this.backHandle}
-              >
-                RETURN TO LOGIN PAGE
-              </Button>
-            )} */}
-          </div>
-        </Modal>
       </div>
     );
     return <React.Fragment>{view}</React.Fragment>;

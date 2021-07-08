@@ -9,8 +9,6 @@ import routes from "../routes";
 const { Sider } = Layout;
 
 const Sidebar = ({ collapsed }) => {
-  const logo = "logo.png";
-  const logoCollapsed = "logo-collapsed.png";
   return (
     <Sider
       trigger={null}

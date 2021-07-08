@@ -22,14 +22,14 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    this.getContractList();
-    this.getTopTenDueDate();
-    this.getAvailableLoan();
-    this.getLoanDisbursement();
-    this.getRepaymentTotal();
-    this.getRepaymentTotalOnPeriod();
-    this.getRepaymentGracePeriod();
-    this.getRepaymentOnPenalty();
+    // this.getContractList();
+    // this.getTopTenDueDate();
+    // this.getAvailableLoan();
+    // this.getLoanDisbursement();
+    // this.getRepaymentTotal();
+    // this.getRepaymentTotalOnPeriod();
+    // this.getRepaymentGracePeriod();
+    // this.getRepaymentOnPenalty();
   }
 
   getContractList = () => {
@@ -318,7 +318,7 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row gutter={4}>
-          <Col span={4}>
+          {/* <Col span={4}>
             <Card title="Available Loan" bodyStyle={{ padding: 5 }}>
               <label style={styles.cardContentGreen}>
                 {currencyFormatter(availableLoan)}
@@ -362,10 +362,10 @@ class Home extends React.Component {
                 {currencyFormatter(repaymentOnPenalty)}
               </label>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
         <Row gutter={16} style={styles.tableHead}>
-          <Col span={14}>
+          {/* <Col span={14}>
             <h2>Approved Merchant Loans</h2>
             <div className="table-wrapper">
               <Table
@@ -388,7 +388,7 @@ class Home extends React.Component {
                 loading={loadingTopTenDueDate}
               />
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     );

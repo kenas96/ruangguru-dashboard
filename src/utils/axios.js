@@ -1,10 +1,8 @@
 import axios from "axios";
 
 const requestAPI = options => {
-  const apikey = `${process.env.REACT_APP_SERVER_API_KEY}`;
   const reqOptionsHeader = {
-    ...options.headers,
-    apikey
+    ...options.headers
   };
 
   return axios({
