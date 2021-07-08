@@ -1,8 +1,8 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const PATHS = require('./webpack-paths');
-const plugins = require('./webpack-plugins');
-const modules = require('./webpack-modules');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const PATHS = require("./webpack-paths");
+const plugins = require("./webpack-plugins");
+const modules = require("./webpack-modules");
 
 module.exports = (env, options) => {
   return {
@@ -11,12 +11,12 @@ module.exports = (env, options) => {
     },
     output: {
       path: PATHS.build,
-      publicPath: '/',
-      filename: 'js/[name].bundle.js'
+      publicPath: "/",
+      filename: "js/[name].bundle.js"
     },
     module: modules(options.mode),
     resolve: {
-      extensions: ['*', '.js', '.jsx']
+      extensions: ["*", ".js", ".jsx", ".less"]
     },
     plugins: plugins(options.mode),
     devServer: {
@@ -43,7 +43,7 @@ module.exports = (env, options) => {
       ],
       splitChunks: {
         // include all types of chunks
-        chunks: 'all'
+        chunks: "all"
       }
     }
   };

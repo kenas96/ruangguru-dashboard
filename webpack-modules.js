@@ -1,7 +1,7 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const autoprefixer = require('autoprefixer');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const autoprefixer = require("autoprefixer");
 
-module.exports = (mode) => {
+module.exports = mode => {
   return {
     rules: [
       {
@@ -18,55 +18,58 @@ module.exports = (mode) => {
           /\.png$/,
           /\.svg$/
         ],
-        loader: require.resolve('file-loader'),
+        loader: require.resolve("file-loader"),
         options: {
-          name: 'static/media/[name].[hash:8].[ext]'
+          name: "static/media/[name].[hash:8].[ext]"
         }
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
             plugins: [
-              ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
-              '@babel/plugin-proposal-class-properties'
+              [
+                "import",
+                { libraryName: "antd", libraryDirectory: "es", style: "css" }
+              ],
+              "@babel/plugin-proposal-class-properties"
             ],
-            presets: ['@babel/preset-env', '@babel/preset-react']
+            presets: ["@babel/preset-env", "@babel/preset-react"]
           }
         }
       },
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          mode === "development" ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
           {
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
             options: {
               plugins: () => [autoprefixer]
             }
           },
-          'sass-loader'
+          "sass-loader"
         ]
       },
       {
         test: /\.less$/,
         use: [
-          mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          mode === "development" ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
           {
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
             options: {
               plugins: () => [autoprefixer]
             }
           },
           {
-            loader: require.resolve('less-loader'),
+            loader: require.resolve("less-loader"),
             options: {
               modifyVars: {
-                '@primary-color': '#4482FF'
+                "@primary-color": "#4482FF"
               }
             }
           }
@@ -76,7 +79,7 @@ module.exports = (mode) => {
         test: /\.(html)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'html-loader',
+          loader: "html-loader",
           options: { minimize: true }
         }
       }
